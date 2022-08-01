@@ -71,3 +71,17 @@ def show_item(
     )
 ) -> Item:
     return {'item_id': item_id}
+
+#Validation Body requests
+@app.put('/item/{item_id}')
+def update_item(
+    item_id: int = Path(
+        ...,
+        title= 'Item ID',
+        description= 'This is the item ID',
+        gte=10, 
+        lte=100
+    ),
+    item: Item = Body(...)
+):
+    return item
