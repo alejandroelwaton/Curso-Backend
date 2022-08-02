@@ -1,8 +1,11 @@
 #Python
+from doctest import master
 from typing import Optional
+from enum import Enum
 
 #Pydantic
 from pydantic import BaseModel
+from pydantic import Field
 
 #Fast api
 from fastapi import FastAPI
@@ -14,11 +17,24 @@ from fastapi import Path
 app = FastAPI()
 
 #Models
+class Types_of_items(Enum):
+    food = 'food'
+    drink = 'drink'
+    materials = 'materials'
+    electronics = 'electronics'
+    misc = 'misc'
+
 
 class Item(BaseModel):
-    name: str
+    name: str = Field(
+        ...,
+        description="Name of the item",
+        max_length=100,
+        min_length=2,
+    )
     price: float
     description: str
+    type: Optional[Types_of_items] = Field(default='misc')
     time_in_stock: int
     in_existence: Optional[bool] = False
 
